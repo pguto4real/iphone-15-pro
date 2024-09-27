@@ -1,6 +1,6 @@
 "use client";
 import { navLists } from "@/constants";
-import { bag, heroImg, search } from "@/utils";
+import { bag, bagImg, heroImg, search, searchImg } from "@/utils";
 import React from "react";
 
 const Navbar = () => {
@@ -30,8 +30,8 @@ const Navbar = () => {
           ))}
         </div>
         <div className="flex items-baseline gap-7 max-sm:justify-end max-sm:flex-1">
-          <img src={search} alt="search" width={18} height={18} />
-          <img src={bag} alt="bag" width={18} height={18} />
+          <img src={searchImg} alt="search" width={18} height={18} />
+          <img src={bagImg} alt="bag" width={18} height={18} />
         </div>
       </nav>
     </header>
