@@ -13,7 +13,6 @@ import { animateWithGsapTimeline } from "../utils/animations";
 
 const Model = () => {
   const [size, setSize] = useState('small');
-  const [eventSource, setEventSource] = useState(null);
   const [model, setModel] = useState({
     title: 'iPhone 15 Pro in Natural Titanium',
     color: ['#8F8A81', '#FFE7B9', '#6F6C64'],
@@ -35,10 +34,6 @@ const Model = () => {
   const tl = gsap.timeline();
 
   useEffect(() => {
-    if (typeof document !== 'undefined') {
-      setEventSource(document.getElementById('root'));
-    }
-
     if(size === 'large') {
       animateWithGsapTimeline(tl, small, smallRotation, '#view1', '#view2', {
         transform: 'translateX(-100%)',
@@ -53,18 +48,10 @@ const Model = () => {
       })
     }
   }, [size])
-  useEffect(() => {
-    console.log(typeof document)
-    if (typeof document !== 'undefined') {
-      setEventSource(document.getElementById('root'));
-    }
-
-  }, [])
 
   useGSAP(() => {
     gsap.to('#heading', { y: 0, opacity: 1 })
   }, []);
-// if (!eventSource) return null; // Wait for eventSource to be set on the client
 
   return (
     <section className="common-padding">
@@ -105,7 +92,7 @@ const Model = () => {
                 right: 0,
                 overflow: 'hidden'
               }}
-              eventSource={eventSource}
+              eventSource={document.getElementById('root')}
             >
               <View.Port />
             </Canvas>

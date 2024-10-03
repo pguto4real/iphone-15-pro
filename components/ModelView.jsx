@@ -1,51 +1,47 @@
 "use client";
-import { OrbitControls, PerspectiveCamera, View } from "@react-three/drei";
-import * as THREE from "three";
-import { Suspense, useEffect } from "react";
-import Lights from "./Lights";
-import Loader from "./Loader";
-import IPhone from "./IPhone";
+import { Html, OrbitControls, PerspectiveCamera, View } from "@react-three/drei"
 
-const ModelView = ({ index, groupRef, controlRef, setRotationState, item, size }) => {
-  useEffect(() => {
-    if (controlRef.current) {
-      controlRef.current.target = new THREE.Vector3(0, 0, 0);
-    }
-  }, [controlRef]);
+import * as THREE from 'three'
+import Lights from './Lights';
+import Loader from './Loader';
+import IPhone from './IPhone';
+import { Suspense } from "react";
 
+const ModelView = ({ index, groupRef, gsapType, controlRef, setRotationState, size, item }) => {
   return (
     <View
       index={index}
-      id={`view${index}`}
-      className={`w-full h-full absolute ${index === 2 ? "right-[-100%]" : ""}`}
+      id={gsapType}
+      className={`w-full h-full absolute ${index === 2 ? 'right-[-100%]' : ''}`}
     >
+      {/* Ambient Light */}
       <ambientLight intensity={0.3} />
+
       <PerspectiveCamera makeDefault position={[0, 0, 4]} />
 
       <Lights />
 
-      {/* OrbitControls */}
-      <OrbitControls
+      <OrbitControls 
+        makeDefault
         ref={controlRef}
-        enableZoom={true}
-        enablePan={true}
+        enableZoom={false}
+        enablePan={false}
         rotateSpeed={0.4}
-        zoomSpeed={0.8}
-        panSpeed={0.5}
-        onEnd={() => {
-          if (controlRef.current) {
-            setRotationState(controlRef.current.getAzimuthalAngle());
-          }
-        }}
-      />
+        target={new THREE.Vector3(0, 0 ,0)}
+        onEnd={() => setRotationState(controlRef.current.getAzimuthalAngle())}
+      /> 
 
-      <group ref={groupRef} position={[0, 0, 0]}>
+      <group ref={groupRef} name={`${index === 1} ? 'small' : 'large`} position={[0, 0 ,0]}>
         <Suspense fallback={<Loader />}>
-          <IPhone scale={index === 1 ? [15, 15, 15] : [17, 17, 17]} item={item} size={size} />
+          <IPhone 
+            scale={index === 1 ? [15, 15, 15] : [17, 17, 17]}
+            item={item}
+            size={size}
+          />
         </Suspense>
       </group>
     </View>
-  );
-};
+  )
+}
 
-export default ModelView;
+export default ModelView
